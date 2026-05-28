@@ -5,6 +5,7 @@
 // between 1 and some other value and prints the result. The upper range of the die
 // roll might be part of your program (i.e. a constant), or maybe it could be entered by the user.
 
+import java.util.Random;
 import java.util.Scanner;
 
 public class Main {
@@ -22,12 +23,18 @@ public class Main {
     final int MIN = 1;
 
     // declare variables
-    int randomNumber = (int) (Math.random() * MAX) + 1;
-    int min = MIN;
-    int max = MAX;
-    int userAttempts = 0;
+
+    Random rand = new Random();
+
+    int randomNumber;
+    int min;
+    int max;
+    int userAttempts;
     int userGuess = 0;
-    boolean isGuessing = true;
+    String answer;
+    boolean isGuessing;
+    boolean stillPlaying = true;
+    boolean isPlayingAgain;
 
     // Create user input Scanner object
     Scanner input = new Scanner(System.in);
@@ -38,66 +45,80 @@ public class Main {
     // Input
 
     System.out.println("Welcome to the Guessing Algorithm! You will get " + NUMBER_OF_ATTEMPTS + " tries to find the correct number.");
-    while (isGuessing && userAttempts < NUMBER_OF_ATTEMPTS) {
-      System.out.print("Guess a number between " + min + " and " + max + ": ");
+    while (stillPlaying) {
+      randomNumber = rand.nextInt(MAX) + 1;
+      userAttempts = 0;
+      isGuessing = true;
+      min = MIN;
+      max = MAX;
+      while (isGuessing && userAttempts < NUMBER_OF_ATTEMPTS) {
+        System.out.print("Guess a number between " + min + " and " + max + ": ");
 
-      // validate if user input is more than an int in size
-      if (!input.hasNextInt()) {
-        System.out.println("Error: Please enter a valid whole number (not too large!).");
-        input.next(); // Clear the bad input
-      }
-      else {
-        // Begin iteration by setting userGuess to be the user input
-        userGuess = input.nextInt();
+        // validate if user input is more than an int in size
+        if (!input.hasNextInt()) {
+          System.out.println("Error: Please enter a valid whole number (not too large!).");
+          input.next(); // Clear the bad input
+        } else {
+          // Begin iteration by setting userGuess to be the user input
+          userGuess = input.nextInt();
 
-        // Check if the user guessed correctly
-        if (randomNumber == userGuess) {
-          System.out.println("You win!");
-          isGuessing = false;
-        }
+          // Check if the user guessed correctly
+          if (randomNumber == userGuess) {
+            System.out.println("You win!");
+            isGuessing = false;
+          } else {
+            System.out.print("Wrong guess! ");
 
-        else {
-          System.out.print("Wrong guess! ");
+            if (userGuess >= min && userGuess <= max) {
+              userAttempts++;
 
-          if (userGuess >= min && userGuess <= max) {
-            userAttempts++;
+              if (randomNumber > userGuess) {
+                System.out.println("Your number was too small!");
+                min = userGuess + 1;
+              } else {
+                System.out.println("Your number was too big!");
+                max = userGuess - 1;
+              }
 
-            if (randomNumber > userGuess) {
-              System.out.println("Your number was too small!");
-              min = userGuess + 1;
+            } else {
+              if (userGuess > max) {
+                System.out.println("That number is too high!");
+              } else {
+                System.out.println("That number is too low!");
+              }
             }
-
-            else {
-              System.out.println("Your number was too big!");
-              max = userGuess - 1;
-            }
-
           }
-          else {
-            if (userGuess > max) {
-              System.out.println("That number is too high!");
-            }
-
-            else {
-              System.out.println("That number is too low!");
-            }
-          }
         }
       }
-    }
 
-    // Output
+      // Output
 
-    System.out.println("You finished with " + userAttempts + " attempt(s).");
-    System.out.println("The number was : " + randomNumber);
-    if (userGuess == randomNumber) {
-      System.out.println("Spot on!");
-    }
-    else if (userGuess > randomNumber){
-      System.out.println("Your guess of " + userGuess + " was " + (userGuess - randomNumber) + " number(s) away!.");
-    }
-    else {
-      System.out.println("Your guess of " + userGuess + " was " + (randomNumber - userGuess) + " number(s) away!");
+      System.out.println("You finished with " + userAttempts + " attempt(s).");
+      System.out.println("The number was : " + randomNumber);
+      if (userGuess == randomNumber) {
+        System.out.println("Spot on!");
+      } else if (userGuess > randomNumber) {
+        System.out.println("Your guess of " + userGuess + " was " + (userGuess - randomNumber) + " number(s) away!.");
+      } else {
+        System.out.println("Your guess of " + userGuess + " was " + (randomNumber - userGuess) + " number(s) away!");
+      }
+
+      // loop program
+      isPlayingAgain = false;
+      answer = "";
+      while (!isPlayingAgain) {
+        System.out.println("Would you like to play again? (y/n): ");
+        answer = input.next().strip().toLowerCase();
+        if (answer.equals("y")) {
+          isPlayingAgain = true;
+        } else if (answer.equals("n")) {
+          stillPlaying = false;
+          isPlayingAgain = true;
+        } else {
+          System.out.println("Invalid input. Try again.");
+        }
+      }
+
     }
   }
 }
