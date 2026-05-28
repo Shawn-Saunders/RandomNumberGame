@@ -32,7 +32,10 @@ public class Main {
     // Create user input Scanner object
     Scanner input = new Scanner(System.in);
 
+    // Uncomment if you want to see the answer, you cheater
     // System.out.println("answer for testing purposes: " + randomNumber);
+
+    // Input
 
     System.out.println("Welcome to the Guessing Algorithm! You will get " + NUMBER_OF_ATTEMPTS + " tries to find the correct number.");
     while (isGuessing && userAttempts < NUMBER_OF_ATTEMPTS) {
@@ -82,6 +85,9 @@ public class Main {
         }
       }
     }
+
+    // Output
+
     System.out.println("You finished with " + userAttempts + " attempt(s).");
     System.out.println("The number was : " + randomNumber);
     if (userGuess == randomNumber) {
