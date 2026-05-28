@@ -16,7 +16,7 @@ public class Main {
   public static void main(String[] args) {
 
     // declare constants
-    // Because I am mean you don't get 7 (you may cheat and make it easier by increasing this number ;) )
+    // Because I am evil you don't get 7 (you may cheat and make it easier by increasing this number ;) )
     final int NUMBER_OF_ATTEMPTS = 5;
     final int MAX = 100;
     final int MIN = 1;
@@ -59,7 +59,7 @@ public class Main {
         else {
           System.out.print("Wrong guess! ");
 
-          if (userGuess > min && userGuess < max) {
+          if (userGuess >= min && userGuess <= max) {
             userAttempts++;
 
             if (randomNumber > userGuess) {
